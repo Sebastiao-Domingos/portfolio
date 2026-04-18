@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-5 md:px-6 py-16">
+
+    <!-- Título e subtítulo -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 translatable"
+            data-pt="Experiência Profissional"
+            data-en="Professional Experience">
+            Experiência Profissional
+        </h1>
+        <p class="text-slate-600 text-lg md:text-xl mt-4 translatable"
+           data-pt="Minha jornada no desenvolvimento web e tecnologias de armazenamento empresarial"
+           data-en="My journey in web development and enterprise storage technologies">
+            Minha jornada no desenvolvimento web e tecnologias de armazenamento empresarial
+        </p>
+    </div>
+
+    <!-- Container da timeline -->
+    <div class="relative">
+
+        <!-- Linha da timeline vertical -->
+        <div class="hidden md:block absolute left-7 top-0 bottom-0 w-px bg-gradient-to-b from-teal-200 via-teal-300 to-slate-200"></div>
+
+        <div class="space-y-10 md:space-y-12">
+
+            {% for experiencia in experiences %}
+                <div class="group bg-transparent p-6 md:p-8 relative md:pl-24">
+
+                    <!-- Ponto da timeline -->
+                    <div class="hidden md:block absolute left-4 top-7 w-6 h-6 bg-teal-100 border-4 border-teal-600 rounded-full z-10 group-hover:bg-teal-200 transition-colors"></div>
+
+                    <div class="flex flex-col md:flex-row gap-8">
+
+                        <!-- Período + Localização -->
+                        <div class="md:w-48 flex-shrink-0 pt-1">
+                            <div class="bg-primary/40 text-white font-semibold text-xs md:text-sm px-4 py-2.5 rounded-full inline-block mb-3 whitespace-nowrap">
+                                {{ experiencia.period }}
+                            </div>
+                            <p class="text-slate-500 text-xs md:text-sm font-medium">
+                                {{ experiencia.location }}
+                            </p>
+                        </div>
+
+                        <div class="flex-1">
+                            <!-- Cargo -->
+                            <h3 class="text-xl md:text-2xl font-semibold text-slate-800 mb-2 translatable"
+                                data-pt="{{ experiencia.title.data_pt }}"
+                                data-en="{{ experiencia.title.data_en }}">
+                                {{ experiencia.title.data_pt }}
+                            </h3>
+
+                            <!-- Empresa -->
+                            <p class="text-teal-600 font-medium text-sm md:text-base mb-4 translatable"
+                               data-pt="{{ experiencia.company.data_pt }}"
+                               data-en="{{ experiencia.company.data_en }}">
+                                {{ experiencia.company.data_pt }}
+                            </p>
+
+                            <!-- Descrições -->
+                            <ul class="space-y-3 text-slate-600 text-sm md:text-base leading-relaxed">
+                                {% for desc in experiencia.description %}
+                                    <li class="flex items-start gap-3 group-hover:text-slate-700 transition-colors">
+                                        <span class="text-teal-500 mt-1 text-lg leading-none">•</span>
+                                        <span class="translatable" 
+                                              data-pt="{{ desc.data_pt }}" 
+                                              data-en="{{ desc.data_en }}">
+                                            {{ desc.data_pt }}
+                                        </span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .group {
+        opacity: 0;
+        animation: fadeInUp 0.8s ease forwards;
+    }
+
+    /* Atrasos progressivos para cada item */
+    .group:nth-child(1) { animation-delay: 100ms; }
+    .group:nth-child(2) { animation-delay: 250ms; }
+    .group:nth-child(3) { animation-delay: 400ms; }
+    .group:nth-child(n+4) { animation-delay: calc(100ms + 180ms * (var(--n) - 1)); }
+</style>
+
+{% endblock %}

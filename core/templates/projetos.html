@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-6 py-16">
+
+    <!-- Título -->
+    <div class="text-center max-w-3xl mx-auto mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 translatable"
+            data-pt="Projetos Realizados"
+            data-en="Projects">
+            Projetos Realizados
+        </h1>
+        <p class="text-slate-600 text-lg md:text-xl mt-4 translatable"
+           data-pt="Alguns dos meus trabalhos mais recentes"
+           data-en="Some of my most recent works">
+            Alguns dos meus trabalhos mais recentes
+        </p>
+    </div>
+
+    <!-- Lista vertical (tipo "mini-carousel" com hover) -->
+    <div class="space-y-6 relative">
+
+
+        <!-- Card 1 – Meu Clube de Ténis -->
+        <div class="group rounded-2xl overflow-hidden cursor-pointer">
+            <div class="flex md:flex-row items-center gap-6 p-5 md:p-7 group-hover:bg-slate-50/40 transition-colors duration-300">
+
+                <!-- Ícone/esquerda com linha vertical -->
+                <div class="flex items-center gap-3">
+                    <div class="
+                        h-20 w-20 md:h-24 md:w-24
+                        rounded-2xl bg-gradient-to-br from-teal-500 via-cyan-500 to-teal-600
+                        flex items-center justify-center text-white text-3xl md:text-4xl
+                        transition-transform duration-300 group-hover:scale-105 group-hover:rotate-1
+                    ">
+                        🏸
+                    </div>
+                    <div class="h-16 w-0.5 bg-slate-300 hidden md:block"></div>
+                </div>
+
+                <!-- Conteúdo (direita) -->
+                <div class="flex-1">
+                    <h3 class="text-xl md:text-2xl font-semibold text-slate-800 translatable mb-1"
+                        data-pt="Meu Clube de Ténis"
+                        data-en="My Tennis Club">
+                        Meu Clube de Ténis
+                    </h3>
+                    <p class="text-slate-600 text-sm md:text-base mb-2 translatable"
+                       data-pt="Sistema completo de gestão de clube de ténis com membros, eventos e inscrições."
+                       data-en="Complete tennis club management system with members, events, and registrations.">
+                        Sistema completo de gestão de clube de ténis com membros, eventos e inscrições.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-full">Django</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-full">PostgreSQL</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-full">Tailwind</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 – Portfolio Pessoal -->
+        <div class="group rounded-2xl overflow-hidden cursor-pointer">
+            <div class="flex md:flex-row items-center gap-6 p-5 md:p-7 group-hover:bg-slate-50/40 transition-colors duration-300">
+
+                <!-- Ícone/esquerda com linha vertical -->
+                <div class="flex items-center gap-3">
+                    <div class="
+                        h-20 w-20 md:h-24 md:w-24
+                        rounded-2xl bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-600
+                        flex items-center justify-center text-white text-3xl md:text-4xl
+                        transition-transform duration-300 group-hover:scale-105 group-hover:rotate-1
+                    ">
+                        📬
+                    </div>
+                    <div class="h-16 w-0.5 bg-slate-300 hidden md:block"></div>
+                </div>
+
+                <!-- Conteúdo (direita) -->
+                <div class="flex-1">
+                    <h3 class="text-xl md:text-2xl font-semibold text-slate-800 translatable mb-1"
+                        data-pt="Portfolio Pessoal"
+                        data-en="Personal Portfolio">
+                        Portfolio Pessoal
+                    </h3>
+                    <p class="text-slate-600 text-sm md:text-base mb-2 translatable"
+                       data-pt="Este website que estás a ver agora. Totalmente desenvolvido com Django e Tailwind."
+                       data-en="This website you are seeing now. Fully developed with Django and Tailwind.">
+                        Este website que estás a ver agora. Totalmente desenvolvido com Django e Tailwind.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-full">Django</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-full">Tailwind CSS</span>
+                        <span class="bg-slate-100 text-slate-700 text-xs px-3 py-1.5 rounded-full">JavaScript</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

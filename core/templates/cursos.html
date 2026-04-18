@@ -1,0 +1,153 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-5 md:px-6 py-16">
+
+    <h1 class="text-5xl font-bold text-center mb-4 translatable" 
+        data-pt="Cursos & Certificações" data-en="Courses & Certifications">
+        Cursos & Certificações
+    </h1>
+    <p class="text-center text-slate-600 text-xl mb-16 translatable" 
+       data-pt="Formação contínua e certificações profissionais" 
+       data-en="Continuous learning and professional certifications">
+        Formação contínua e certificações profissionais
+    </p>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+        {% for cert in courses %}
+            <div 
+                {% if cert.pdf_url %}
+                    onclick="showPdfModal('{% static cert.pdf_url %}', '{{ cert.title.data_pt }}')" 
+                {% endif %}
+            
+                 class="group bg-white rounded-3xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 flex flex-col h-full {% if cert.pdf_url %} cursor-pointer {% endif %}">
+
+                <!-- Badge -->
+                <div class="flex justify-center pt-8 pb-4">
+                    <img src="{% static 'images/'|add:cert.badge_image %}" 
+                         alt="{{ cert.title.data_pt }}"
+                         class="w-24 h-24 object-contain transition-all duration-500 group-hover:scale-110 group-hover:rotate-6">
+                </div>
+
+                <div class="px-8 pb-8 flex-1 flex flex-col">
+                    <h3 class="font-semibold text-2xl mb-3 translatable" 
+                        data-pt="{{ cert.title.data_pt }}" 
+                        data-en="{{ cert.title.data_en }}">
+                        {{ cert.title.data_pt }}
+                    </h3>
+
+                    <p class="text-teal-600 font-medium mb-6 translatable" 
+                       data-pt="{{ cert.subtitle.data_pt }}" 
+                       data-en="{{ cert.subtitle.data_en }}">
+                        {{ cert.subtitle.data_pt }}
+                    </p>
+
+                    <p class="text-slate-600 text-sm leading-relaxed flex-1 translatable" 
+                       data-pt="{{ cert.description.0.data_pt }}" 
+                       data-en="{{ cert.description.0.data_en }}">
+                        {{ cert.description.0.data_pt }}
+                    </p>
+
+                    {% if cert.pdf_url %}
+                        <div class="mt-auto pt-6 border-t text-teal-600 font-medium flex items-center gap-2 group-hover:text-teal-700 transition">
+                            <i class="fa-solid fa-file-pdf"></i>
+                            <span class="translatable" data-pt="Ver Certificado" data-en="View Certificate">
+                                Ver Certificado
+                            </span>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+
+<!-- ==================== PDF.js MODAL ==================== -->
+<div id="pdfModal" class="hidden fixed inset-0 bg-black/90 flex items-center justify-center z-[10000] p-4">
+    <div class="bg-white rounded-3xl w-full max-w-5xl max-h-[95vh] flex flex-col shadow-2xl overflow-hidden">
+        
+        <!-- Header -->
+        <div class="flex items-center justify-between px-8 py-5 border-b bg-white">
+            <h2 id="modalTitle" class="text-2xl font-semibold text-slate-800"></h2>
+            <button onclick="closePdfModal()" class="text-4xl text-slate-400 hover:text-red-500 transition">✕</button>
+        </div>
+
+        <!-- PDF Viewer -->
+        <div class="flex-1 bg-slate-100 p-4 overflow-auto">
+            <canvas id="pdfCanvas" class="mx-auto shadow-inner border border-slate-300 rounded-xl"></canvas>
+        </div>
+
+        <!-- Footer -->
+        <div class="px-8 py-4 border-t bg-white flex items-center justify-between">
+            <a id="downloadBtn" href="#" target="_blank"
+               class="flex items-center gap-2 bg-teal-700 text-white px-6 py-3 rounded-2xl hover:bg-teal-800 transition">
+                <i class="fa-solid fa-download"></i>
+                <span class="translatable" data-pt="Baixar PDF" data-en="Download PDF">Baixar PDF</span>
+            </a>
+            <button onclick="closePdfModal()" 
+                    class="px-6 py-3 border border-slate-300 rounded-2xl hover:bg-slate-100 transition">
+                Fechar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- pdf.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+<script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    let currentPdf = null;
+
+    async function showPdfModal(pdfUrl, title) {
+        document.getElementById('modalTitle').textContent = title;
+        document.getElementById('downloadBtn').href = pdfUrl;
+
+        const modal = document.getElementById('pdfModal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+
+        try {
+            currentPdf = await pdfjsLib.getDocument(pdfUrl).promise;
+            renderPage(1);   // Renderiza a primeira página
+        } catch (error) {
+            console.error("Erro ao carregar PDF:", error);
+            alert("Não foi possível carregar o PDF.");
+        }
+    }
+
+    async function renderPage(pageNum) {
+        if (!currentPdf) return;
+        const page = await currentPdf.getPage(pageNum);
+        const canvas = document.getElementById('pdfCanvas');
+        const context = canvas.getContext('2d');
+
+        const viewport = page.getViewport({ scale: 1.5 });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        await page.render({
+            canvasContext: context,
+            viewport: viewport
+        }).promise;
+    }
+
+    function closePdfModal() {
+        const modal = document.getElementById('pdfModal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        currentPdf = null;
+        document.getElementById('pdfCanvas').getContext('2d').clearRect(0, 0, 1000, 1000);
+    }
+</script>
+
+<style>
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+    .group { animation: fadeInUp 0.7s ease forwards; }
+</style>
+
+{% endblock %}

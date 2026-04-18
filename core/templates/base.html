@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sebastião Afonso Domingos</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    
+    <style type="text/tailwindcss">
+        @theme {
+            --color-primary: #0f766e;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans min-h-screen flex flex-col">
+
+    <!-- NAVIGATION - Totalmente Responsiva -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-5 md:px-6 py-5">
+            <div class="flex justify-between items-center">
+                
+                <!-- Logo -->
+                <a href="/" class="text-2xl md:text-3xl font-bold text-teal-700">
+                    Sebastião
+                </a>
+
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center gap-4 text-sm font-medium">
+                    <a href="/"  {% if request.path == '/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition-colors p-3 translatable" data-pt="Início" data-en="Home">Início</a>
+                    <a href="/experiencia/" {% if request.path == '/experiencia/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition-colors p-3 translatable" data-pt="Experiência" data-en="Experience">Experiência</a>
+                    <a href="/formacao/" {% if request.path == '/formacao/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition-colors p-3 translatable" data-pt="Formação" data-en="Education">Formação</a>
+                    <a href="/cursos/" {% if request.path == '/cursos/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition-colors p-3 translatable" data-pt="Cursos" data-en="Courses">Cursos</a>
+                    <a href="/projetos/" {% if request.path == '/projetos/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition-colors p-3 translatable" data-pt="Projetos" data-en="Projects">Projetos</a>
+                    <a href="/contacto/" {% if request.path == '/contacto/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition-colors p-3 translatable" data-pt="Contacto" data-en="Contact">Contacto</a>
+                </div>
+
+                <!-- Language Switcher + Mobile Menu Button -->
+                <div class="flex items-center gap-4">
+                    
+                    <!-- Language Switcher -->
+                    <div class="flex items-center gap-1 border border-slate-300 rounded-full p-1 text-xs md:text-sm">
+                        <button onclick="changeLanguage('pt')" id="btn-pt"
+                                class="px-3 md:px-4 py-1.5 rounded-full font-medium transition-colors">
+                            🇵🇹 PT
+                        </button>
+                        <button onclick="changeLanguage('en')" id="btn-en"
+                                class="px-3 md:px-4 py-1.5 rounded-full font-medium transition-colors">
+                            🇬🇧 EN
+                        </button>
+                    </div>
+
+                    <!-- Mobile Menu Button -->
+                    <button id="mobile-menu-button"
+                            class="md:hidden p-3 text-slate-700 hover:text-teal-600 transition">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile Menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pt-4 border-t border-slate-200">
+                <div class="flex flex-col gap-4 text-base font-medium">
+                    <a href="/" {% if request.path == '/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition py-2 translatable" data-pt="Início" data-en="Home">Início</a>
+                    <a href="/experiencia/" {% if request.path == '/experiencia/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition py-2 translatable" data-pt="Experiência" data-en="Experience">Experiência</a>
+                    <a href="/formacao/" {% if request.path == '/formacao/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition py-2 translatable" data-pt="Formação" data-en="Education">Formação</a>
+                    <a href="/cursos/" {% if request.path == '/cursos/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition py-2 translatable" data-pt="Cursos" data-en="Courses">Cursos</a>
+                    <a href="/projetos/" {% if request.path == '/projetos/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition py-2 translatable" data-pt="Projetos" data-en="Projects">Projetos</a>
+                    <a href="/contacto/" {% if request.path == '/contacto/' %} class="text-teal-600 bg-primary/10 p-3 rounded translatable" {% endif %} class="hover:text-teal-600 transition py-2 translatable" data-pt="Contacto" data-en="Contact">Contacto</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- FOOTER - Responsivo -->
+    <footer class="bg-slate-900 text-white pt-16 pb-10">
+        <div class="max-w-6xl mx-auto px-5 md:px-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                
+                <!-- Coluna 1 -->
+                <div>
+                    <h3 class="text-2xl font-bold text-teal-400 mb-4">Sebastião Afonso Domingos</h3>
+                    <p class="text-slate-400 leading-relaxed translatable" data-pt="Desenvolvedor Django Júnior<br>Luanda, Angola" data-en="Junior Django Developer<br>Luanda, Angola">
+                        Desenvolvedor Django Júnior<br>
+                        Luanda, Angola
+                    </p>
+                </div>
+
+                <!-- Coluna 2 -->
+                <div>
+                    <h4 class="font-semibold mb-5 text-lg translatable" data-pt="Contactos" data-en="Contacts">Contactos</h4>
+                    <div class="space-y-3 text-slate-400">
+                        <p>
+                            <i class="fa-solid fa-envelope mr-3"></i>
+                            <span class="translatable" data-pt="domingossebastiao380@gmail.com" data-en="domingossebastiao380@gmail.com">
+                                domingossebastiao380@gmail.com
+                            </span>
+                        </p>
+                        <p>
+                            <i class="fa-solid fa-envelope mr-3"></i>
+                            <span class="translatable" data-pt="domingossebastiao360@gmail.com" data-en="domingossebastiao360@gmail.com">
+                                domingossebastiao360@gmail.com
+                            </span>
+                        </p>
+                        <p>
+                            <i class="fa-solid fa-phone mr-3"></i>
+                            +244 928 572 013
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Coluna 3 -->
+                <div>
+                    <h4 class="font-semibold mb-5 text-lg translatable" data-pt="Redes Sociais" data-en="Social Media">Redes Sociais</h4>
+                    <div class="flex gap-6 text-3xl">
+                        <a href="https://www.linkedin.com/in/sebastião-afonso-domingos-766761249" 
+                           target="_blank" class="hover:text-teal-400 transition">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="https://github.com/sebastiaoafonso" 
+                           target="_blank" class="hover:text-teal-400 transition">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="https://www.instagram.com/sebastiaoafonso/" 
+                           target="_blank" class="hover:text-teal-400 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="text-center text-slate-500 text-sm mt-16 border-t border-slate-800 pt-8 translatable" data-pt="© 2026 Sebastião • Feito com ❤️ em Luanda, Angola" data-en="© 2026 Sebastião • Made with ❤️ in Luanda, Angola">
+                © 2026 Sebastião • Feito com ❤️ em Luanda, Angola
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+
+
+
+        // Mobile Menu Toggle
+        const mobileBtn = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            
+            // Troca ícone entre barras e X
+            const icon = mobileBtn.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            } else {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            }
+        });
+
+        // Troca de Idioma
+        let currentLang = 'pt';
+
+        language = localStorage.getItem("language") ?? ""
+
+        if(language){
+             // Atualiza estilo dos botões
+            
+            changeBtnColor(language)
+
+            document.querySelectorAll('.translatable').forEach(el => {
+                if (el.dataset[language]) {
+                    el.textContent = el.dataset[language];
+                }
+            });
+        } 
+
+
+        function changeLanguage(lang) {
+            currentLang = lang;
+
+            localStorage.setItem("language" , currentLang)
+            
+            document.querySelectorAll('.translatable').forEach(el => {
+                if (el.dataset[lang]) {
+                    el.textContent = el.dataset[lang];
+                }
+            });
+
+            // Atualiza estilo dos botões
+
+            changeBtnColor(lang)
+        }
+
+
+        function changeBtnColor( lang){
+            const btnPt = document.getElementById('btn-pt');
+            const btnEn = document.getElementById('btn-en');
+
+            btnPt.classList.toggle('bg-teal-700', lang === 'pt');
+            btnPt.classList.toggle('text-white', lang === 'pt');
+            
+            btnEn.classList.toggle('bg-teal-700', lang === 'en');
+            btnEn.classList.toggle('text-white', lang === 'en');
+        }
+
+        // Fecha menu mobile ao clicar num link
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                const icon = mobileBtn.querySelector('i');
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
+            });
+        });
+    </script>
+</body>
+</html>

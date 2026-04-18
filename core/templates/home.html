@@ -1,0 +1,166 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-6xl mx-auto px-5 md:px-6 pt-12 md:pt-20 pb-24">
+
+    <!-- HERO SECTION -->
+    <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="space-y-6 animate-fade-in">
+            <h1 class="text-5xl md:text-6xl font-bold leading-tight">
+                <span class="translatable" data-pt="Olá, eu sou" data-en="Hello, I am">Olá, eu sou</span><br>
+                <span class="text-teal-600">Sebastião Afonso Domingos</span>
+            </h1>
+            
+            <p class="text-xl md:text-2xl text-slate-600 leading-relaxed translatable" 
+               data-pt="Profissional de TI especializado em desenvolvimento web, redes e sistemas de armazenamento empresarial. Apaixonado por resolver desafios técnicos e aprender continuamente."
+               data-en="IT professional specialized in web development, networks and enterprise storage systems. Passionate about solving technical challenges and continuous learning.">
+                Profissional de TI especializado em desenvolvimento web, redes e sistemas de armazenamento empresarial. Apaixonado por resolver desafios técnicos e aprender continuamente.
+            </p>
+
+            <div class="flex flex-wrap gap-4">
+                <a href="/contacto/" 
+                   class="inline-flex items-center bg-teal-700 hover:bg-teal-800 text-white px-8 py-4 rounded-2xl text-lg font-medium transition-all duration-300 translatable"
+                   data-pt="Fala comigo" data-en="Get in touch">
+                    Fala comigo
+                </a>
+                <a href="/experiencia/" 
+                   class="inline-flex items-center border border-slate-300 hover:border-teal-600 px-8 py-4 rounded-2xl text-lg font-medium transition-all duration-300 translatable" data-en="See my experience" data-pt="Ver minha experiência">
+                    Ver minha experiência
+                </a>
+            </div>
+
+            <!-- Trust signals -->
+            <div class="flex items-center gap-8 pt-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-certificate text-teal-600"></i>
+                    <span class="text-sm font-medium">Dell Certified</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-certificate text-teal-600"></i>
+                    <span class="text-sm font-medium">Huawei Seeds 2025</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-graduation-cap text-teal-600"></i>
+                    <span class="text-sm font-medium">Eng. Informática • 2026</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Foto - Versão Impressionante -->
+        <div class="flex justify-center md:justify-end">
+            <div class="relative group">
+                
+                <!-- Foto com animação suave -->
+                <div class="relative w-72 md:w-80 h-72 md:h-80 rounded-full overflow-hidden shadow-2xl border-4 border-white/80 bg-gradient-to-br from-teal-400 to-cyan-500 p-1 transition-all duration-700 group-hover:scale-110 group-hover:shadow-3xl">
+                    
+                    <img src="{% static 'images/foto-seba.png' %}" 
+                        alt="Sebastião Afonso Domingos"
+                        class="w-full h-full object-cover rounded-full transition-all duration-700 group-hover:scale-105">
+
+                    <!-- Anel de brilho suave ao redor -->
+                    <div class="absolute inset-0 rounded-full border-2 border-teal-300/30 animate-pulse-slow"></div>
+                </div>
+
+                <!-- Badge "Disponível para oportunidades" -->
+                <div class="absolute -bottom-4 -right-4 bg-white text-teal-700 text-sm font-semibold px-6 py-3 rounded-3xl shadow-xl flex items-center gap-2 transition-all duration-300 group-hover:-translate-y-1">
+                    <i class="fa-solid fa-circle-check text-green-500"></i>
+                    <span class="translatable" 
+                        data-pt="Disponível para oportunidades" 
+                        data-en="Available for opportunities">
+                        Disponível para oportunidades
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MINHA JORNADA - CARROSSEL -->
+    <div class="mt-24">
+        <h2 class="text-4xl font-semibold text-center mb-12 translatable" 
+            data-pt="Minha Jornada" data-en="My Journey">
+            Minha Jornada
+        </h2>
+
+        <!-- Carrossel -->
+        <div id="journey-carousel" class="relative overflow-hidden">
+            <div class="flex gap-6 snap-x snap-mandatory scroll-smooth overflow-x-auto scrollbar-hide pb-6 md:grid md:grid-cols-2 lg:grid-cols-4 md:gap-8">
+
+                {% for card in journey_cards %}
+                    <a href="{{ card.link }}" class="group bg-white p-8 rounded-3xl shadow hover:shadow-xl transition-all duration-500 min-w-[85%] md:min-w-0 snap-center animate-fade-in-up" style="animation-delay: 100ms">
+                        <i class="{{ card.icon }} text-5xl text-teal-600 mb-6"></i>
+                        <h3 class="text-2xl font-semibold mb-3 translatable" data-pt="{{ card.title.data_pt }}" data-en="{{ card.title.data_en }}">{{ card.title.data_pt }}</h3>
+                        <p class="text-slate-600 translatable" data-pt="{{ card.subtitle.data_pt }}" data-en="{{ card.subtitle.data_en }}">{{ card.subtitle.data_pt }}</p>
+                    </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in { animation: fadeIn 0.8s ease forwards; }
+    .animate-fade-in-up { animation: fadeIn 0.8s ease forwards; }
+
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+
+    @keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-15px); }
+    }
+
+    @keyframes pulse-slow {
+        0%, 100% { opacity: 0.3; }
+        50% { opacity: 0.6; }
+    }
+
+    .animate-pulse-slow {
+        animation: pulse-slow 4s ease-in-out infinite;
+    }
+
+    .group:hover {
+        animation: float 3s ease-in-out infinite;
+    }
+    
+</style>
+
+<script>
+    // Animações ao fazer scroll (suaves)
+    function animateOnScroll() {
+        const cards = document.querySelectorAll('#journey-carousel a');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animationDelay = `${index * 100}ms`;
+                    entry.target.classList.add('animate-fade-in-up');
+                }
+            });
+        }, { threshold: 0.3 });
+        
+        cards.forEach(card => observer.observe(card));
+    }
+
+    // Inicializa tudo quando a página carregar
+    document.addEventListener('DOMContentLoaded', () => {
+        animateOnScroll();
+        
+        // Opcional: Auto-scroll suave no carrossel em mobile a cada 6 segundos
+        if (window.innerWidth < 768) {
+            const carousel = document.getElementById('journey-carousel');
+            let scrollAmount = 0;
+            setInterval(() => {
+                scrollAmount += window.innerWidth * 0.85;
+                if (scrollAmount >= carousel.scrollWidth) scrollAmount = 0;
+                carousel.scrollTo({ left: scrollAmount, behavior: 'smooth' });
+            }, 6000);
+        }
+    });
+</script>
+
+{% endblock %}
