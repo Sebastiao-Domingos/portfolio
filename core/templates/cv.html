@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-4xl mx-auto px-5 md:px-8 py-16 bg-white shadow-2xl rounded-3xl min-h-screen">
+
+    <!-- Top bar -->
+    <div class="h-2 bg-[#1a365d] rounded-t-3xl mb-8"></div>
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row gap-8 items-start">
+        <div class="flex-shrink-0">
+            <img src="{% static 'images/foto-seba.png' %}" alt="Sebastião Afonso Domingos"
+                 class="w-40 h-40 object-cover rounded-2xl border-4 border-[#1a365d] shadow-lg">
+        </div>
+        <div class="flex-1">
+            <h1 class="text-4xl font-bold text-[#1a365d]">Sebastião Afonso Domingos</h1>
+            <p class="text-slate-600 text-lg">Desenvolvedor Web & Especialista em Armazenamento</p>
+
+            <div class="flex flex-wrap gap-x-6 gap-y-2 mt-6 text-sm text-slate-600">
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-envelope"></i>
+                    domingossebastiao380@gmail.com
+                </span>
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-phone"></i>
+                    +244 928 572 013
+                </span>
+                <span class="flex items-center gap-2">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    Rangel, Luanda, Angola
+                </span>
+                <span class="flex items-center gap-2">
+                    <i class="fa-brands fa-linkedin"></i>
+                    Sebastião Domingos
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-12 grid md:grid-cols-5 gap-12">
+
+        <!-- Coluna Principal -->
+        <div class="md:col-span-3 space-y-12">
+
+            <!-- Perfil -->
+            <section>
+                <h2 class="text-xl font-semibold text-[#1a365d] mb-4 border-b border-[#1a365d] pb-2">PERFIL</h2>
+                <p class="text-slate-700 leading-relaxed">
+                    Sou um profissional de TI especializado em desenvolvimento web e tecnologias de redes, com forte experiência em sistemas de armazenamento. Apaixonado por resolver desafios e aprender continuamente.
+                </p>
+            </section>
+
+            <!-- Experiência Profissional -->
+            <section>
+                <h2 class="text-xl font-semibold text-[#1a365d] mb-4 border-b border-[#1a365d] pb-2">EXPERIÊNCIA PROFISSIONAL</h2>
+                <div class="space-y-8">
+                    <div>
+                        <div class="flex justify-between">
+                            <h3 class="font-semibold">Estagiário – Intervenção de Campo</h3>
+                            <span class="text-sm text-slate-500">Dell Technologies • 2025–2026</span>
+                        </div>
+                        <p class="text-teal-700 text-sm">Dell Unity, Data Domain e PowerMax</p>
+                    </div>
+                    <div>
+                        <div class="flex justify-between">
+                            <h3 class="font-semibold">Desenvolvedor Front-End Intermédio</h3>
+                            <span class="text-sm text-slate-500">DunorteJPP • 2023–2024</span>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between">
+                            <h3 class="font-semibold">Assistente Técnico – Departamento de TI</h3>
+                            <span class="text-sm text-slate-500">INSTIC • 2024–2025</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Formação -->
+            <section>
+                <h2 class="text-xl font-semibold text-[#1a365d] mb-4 border-b border-[#1a365d] pb-2">FORMAÇÃO ACADÊMICA</h2>
+                <div class="space-y-6">
+                    <div>
+                        <h3 class="font-semibold">Licenciatura em Engenharia Informática</h3>
+                        <p class="text-teal-700">Universidade de Luanda – INSTIC • 2020–2026</p>
+                    </div>
+                    <div>
+                        <h3 class="font-semibold">Ensino Médio em Manutenção Mecânica</h3>
+                        <p class="text-teal-700">Politécnico 17 de Dezembro • 2015–2019</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="md:col-span-2 space-y-10">
+
+            <div>
+                <h2 class="text-lg font-semibold text-[#1a365d] mb-4">CERTIFICAÇÕES</h2>
+                <ul class="space-y-3 text-sm">
+                    <li>Dell Technologies – ISM</li>
+                    <li>Dell Unity Deploy 2023</li>
+                    <li>PowerMax-Operate v2</li>
+                    <li>Huawei Seeds for the Future 2025</li>
+                </ul>
+            </div>
+
+            <div>
+                <h2 class="text-lg font-semibold text-[#1a365d] mb-4">IDIOMAS</h2>
+                <p>Português (Nativo)</p>
+                <p>Inglês (Básico a Intermédio)</p>
+            </div>
+
+            <!-- Botão de Download -->
+            <div class="pt-8">
+                <button onclick="downloadCV()" 
+                        class="w-full bg-[#1a365d] text-white py-5 rounded-2xl font-semibold flex items-center justify-center gap-3 hover:bg-[#132a4a] transition">
+                    <i class="fa-solid fa-download"></i>
+                    BAIXAR CV EM PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+function downloadCV() {
+    const element = document.querySelector('.max-w-4xl');
+    const opt = {
+        margin: 0.5,
+        filename: 'Sebastiao_Afonso_Domingos_CV.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    };
+    html2pdf().set(opt).from(element).save();
+}
+</script>
+
+{% endblock %}
