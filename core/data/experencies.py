@@ -86,5 +86,31 @@ def data_experiences():
                 "data_en": "Team collaboration for improvement of existing systems"
             }
         ]
+    },
+    {
+        "period": "2025 — 2026",
+        "location": "Luanda, Angola",
+        "title": {
+            "data_pt": "Desenvolvedor Front-End Júnior",
+            "data_en": "Junior Front-End Developer"
+        },
+        "company": {
+            "data_pt": "UNILUANDA - Universidade de Luanda",
+            "data_en": "UNILUANDA - University of Luanda"
+        },
+        "description": [
+            {
+                "data_pt": "Desenvolvimento de interfaces web utilizando ReactJS",
+                "data_en": "Development of web interfaces using ReactJS"
+            },
+            {
+                "data_pt": "Participação em projetos de desenvolvimento de aplicações web",
+                "data_en": "Participation in web application development projects"
+            },
+            {
+                "data_pt": "Colaboração com a equipa para garantir a qualidade do código e a entrega pontual dos projetos",
+                "data_en": "Collaboration with the team to ensure code quality and timely delivery of projects"
+            }
+        ]
     }
 ]
