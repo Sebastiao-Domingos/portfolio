@@ -1,0 +1,617 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div style="height: 6px; background-color: #1a365d;" class="w-full"></div>
+
+<div class="w-full max-w-4xl mx-auto px-6 py-8 md:px-10">
+
+    <!-- Controlos -->
+    <div class="mb-6 flex justify-between items-center flex-wrap gap-4 no-print">
+        <div class="flex gap-2">
+            <button onclick="updateLanguage('en')" id="lang-en"
+                class="px-3 py-1.5 rounded font-medium text-sm transition-all"
+                style="background-color: #1a365d; color: #ffffff;">
+                English
+            </button>
+            <button onclick="updateLanguage('pt')" id="lang-pt"
+                class="px-3 py-1.5 rounded font-medium text-sm transition-all"
+                style="background-color: #e8edf3; color: #1a365d;">
+                Português
+            </button>
+        </div>
+        <div class="flex gap-2">
+            <button id="download-btn" onclick="downloadPDF()"
+                class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all"
+                style="background-color: #1a365d; color: #ffffff;"
+                onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                <i data-lucide="download" style="width:18px;height:18px;"></i>
+                <span data-i18n="download_pdf">Download PDF</span>
+            </button>
+            <button id="download-word-btn" onclick="downloadWord()"
+                class="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all"
+                style="background-color: #1a365d; color: #ffffff;"
+                onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                <i data-lucide="file-text" style="width:18px;height:18px;"></i>
+                <span data-i18n="download_word">Download Word</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="mb-8">
+        <div class="flex gap-6 items-start">
+            <!-- Foto -->
+            <div class="flex-shrink-0">
+                <div id="profile-photo" title="Clique para carregar foto"
+                    class="w-32 h-32 rounded-lg overflow-hidden border-2 cursor-pointer"
+                    style="border-color: #1a365d; background-color: #e8edf3;">
+                    <img id="photo-img" src="{% static 'images/foto-seba.png' %}" alt="{{ cv.name }}"
+                        style="width:100%;height:100%;object-fit:cover;" />
+                    <div id="photo-placeholder" class="w-full h-full flex-col items-center justify-center gap-1 hidden"
+                        style="background-color: #e8edf3;">
+                        <i data-lucide="camera" style="width:36px;height:36px;color:#1a365d;opacity:0.35;"></i>
+                        <span style="font-size:10px;color:#1a365d;opacity:0.5;">Adicionar foto</span>
+                    </div>
+                </div>
+                <input type="file" id="hidden-photo-input" accept="image/*" style="display:none;" />
+            </div>
+
+            <!-- Nome e contactos -->
+            <div class="flex-grow">
+                <h1 class="font-bold tracking-tight mb-3" style="color:#1a365d;font-size:2.1rem;">
+                    {{ cv.name }}
+                </h1>
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-sm">
+                    <span class="flex items-center gap-1.5" style="color:#64748b;">
+                        <i data-lucide="mail" style="width:15px;height:15px;"></i>
+                        {{ cv.contact.email }}
+                    </span>
+                    <span class="flex items-center gap-1.5" style="color:#64748b;">
+                        <i data-lucide="phone" style="width:15px;height:15px;"></i>
+                        {{ cv.contact.phone }}
+                    </span>
+                    <span class="flex items-center gap-1.5" style="color:#64748b;">
+                        <i data-lucide="map-pin" style="width:15px;height:15px;"></i>
+                        {{ cv.contact.location }}
+                    </span>
+                    <span class="flex items-center gap-1.5" style="color:#64748b;">
+                        <i data-lucide="linkedin" style="width:15px;height:15px;"></i>
+                        {{ cv.contact.linkedin }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Perfil -->
+    <section class="mb-7">
+        <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-3 border-b-2"
+            style="color:#1a365d;border-color:#1a365d;font-size:1rem;" data-i18n="profile">
+            Profile
+        </h2>
+        <p class="leading-relaxed text-justify translatable"
+           data-pt="{{ cv.profile.data_pt }}"
+           data-en="{{ cv.profile.data_en }}">
+            {{ cv.profile.data_en }}
+        </p>
+        <p class="leading-relaxed mt-2 text-justify translatable"
+           data-pt="{{ cv.profile_extra.data_pt }}"
+           data-en="{{ cv.profile_extra.data_en }}">
+            {{ cv.profile_extra.data_en }}
+        </p>
+    </section>
+
+    <!-- Grid principal -->
+    <div class="grid md:grid-cols-5 gap-10">
+
+        <!-- Coluna principal -->
+        <div class="md:col-span-3 space-y-7">
+
+            <!-- Experiência Profissional -->
+            <section>
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-4 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="professional_experience">
+                    Professional Experience
+                </h2>
+
+                {% for exp in cv.experiences %}
+                <div class="mb-5">
+                    <div class="flex items-start gap-2.5">
+                        <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color:#1a365d;"></div>
+                        <div>
+                            <h3 class="font-semibold translatable"
+                                style="color:#1a365d;"
+                                data-pt="{{ exp.title.data_pt }}"
+                                data-en="{{ exp.title.data_en }}">
+                                {{ exp.title.data_en }}
+                            </h3>
+                            <p class="text-sm mb-1.5 translatable"
+                               style="color:#64748b;"
+                               data-pt="{{ exp.company.data_pt }}"
+                               data-en="{{ exp.company.data_en }}">
+                                {{ exp.company.data_en }}
+                            </p>
+                            {% if exp.bullets %}
+                            <ul class="space-y-1 text-sm ml-1">
+                                {% for b in exp.bullets %}
+                                <li class="flex items-start gap-2">
+                                    <span style="color:#1a365d;margin-top:2px;">›</span>
+                                    <span>
+                                        <strong class="translatable"
+                                                data-pt="{{ b.label.data_pt }}"
+                                                data-en="{{ b.label.data_en }}">
+                                            {{ b.label.data_en }}
+                                        </strong>
+                                        –
+                                        <span class="translatable"
+                                              data-pt="{{ b.body.data_pt }}"
+                                              data-en="{{ b.body.data_en }}">
+                                            {{ b.body.data_en }}
+                                        </span>
+                                    </span>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <!-- Formação Académica -->
+            <section>
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-4 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="academic_training">
+                    Academic Training
+                </h2>
+                {% for edu in cv.education %}
+                <div class="flex items-start gap-2.5">
+                    <div class="w-2 h-2 rounded-full mt-2 flex-shrink-0" style="background-color:#1a365d;"></div>
+                    <div>
+                        <h3 class="font-semibold translatable"
+                            style="color:#1a365d;"
+                            data-pt="{{ edu.title.data_pt }}"
+                            data-en="{{ edu.title.data_en }}">
+                            {{ edu.title.data_en }}
+                        </h3>
+                        <p class="text-sm mb-1.5" style="color:#64748b;">
+                            {{ edu.institution }} ·
+                            <span class="translatable"
+                                  data-pt="{{ edu.period.data_pt }}"
+                                  data-en="{{ edu.period.data_en }}">
+                                {{ edu.period.data_en }}
+                            </span>
+                        </p>
+                        <ul class="space-y-1 text-sm ml-1">
+                            {% for b in edu.bullets %}
+                            <li class="flex items-start gap-2">
+                                <span style="color:#1a365d;margin-top:2px;">›</span>
+                                <span class="translatable"
+                                      data-pt="{{ b.data_pt }}"
+                                      data-en="{{ b.data_en }}">
+                                    {{ b.data_en }}
+                                </span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+                {% endfor %}
+            </section>
+
+            <!-- Huawei -->
+            <section>
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-4 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="huawei">
+                    Huawei Seeds for the Future – 2025
+                </h2>
+                <div class="flex flex-wrap gap-2">
+                    {% for tag in cv.huawei_tags %}
+                    <span class="px-3 py-1 rounded-full text-sm font-medium"
+                          style="background-color:#e8edf3;">
+                        {{ tag }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </section>
+
+        </div>
+
+        <!-- Sidebar -->
+        <div class="md:col-span-2 space-y-6">
+
+            <!-- Certificações -->
+            <div class="rounded-xl p-5" style="background-color:#e8edf3;">
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-3 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="certifications">
+                    Certifications
+                </h2>
+                <ul class="space-y-2 text-sm">
+                    {% for cert in cv.certifications %}
+                    <li class="flex items-start gap-2">
+                        <i data-lucide="award" style="width:14px;height:14px;color:#1a365d;flex-shrink:0;margin-top:2px;"></i>
+                        <span>{{ cert }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Cursos Técnicos -->
+            <div class="rounded-xl p-5" style="background-color:#e8edf3;">
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-3 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="technical_courses">
+                    Technical Courses
+                </h2>
+                <ul class="space-y-2 text-sm">
+                    {% for course in cv.technical_courses %}
+                    <li class="flex items-start gap-2">
+                        <i data-lucide="book-open" style="width:14px;height:14px;color:#1a365d;flex-shrink:0;margin-top:2px;"></i>
+                        <span>{{ course }}</span>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <!-- Idiomas -->
+            <div class="rounded-xl p-5" style="background-color:#e8edf3;">
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-3 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="languages">
+                    Languages
+                </h2>
+                <div class="space-y-3">
+                    {% for lang in cv.languages %}
+                    <div>
+                        <div class="flex justify-between text-sm mb-1">
+                            <span class="font-medium">{{ lang.name }}</span>
+                            <span class="translatable" style="color:#64748b;"
+                                  data-pt="{{ lang.level.data_pt }}"
+                                  data-en="{{ lang.level.data_en }}">
+                                {{ lang.level.data_en }}
+                            </span>
+                        </div>
+                        <div class="h-1.5 rounded-full" style="background-color:#cbd5e1;">
+                            <div class="h-full rounded-full" style="width:{{ lang.pct }}%;background-color:#1a365d;"></div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Hard Skills -->
+            <div class="rounded-xl p-5" style="background-color:#e8edf3;">
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-3 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="hard_skills">
+                    Hard Skills
+                </h2>
+                <div class="flex flex-wrap gap-1.5">
+                    {% for skill in cv.hard_skills %}
+                    <span class="px-2.5 py-1 rounded text-xs font-medium"
+                          style="background-color:rgba(26,54,93,0.1);color:#1a365d;">
+                        {{ skill }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="rounded-xl p-5" style="background-color:#e8edf3;">
+                <h2 class="font-semibold uppercase tracking-widest pb-1.5 mb-3 border-b-2"
+                    style="color:#1a365d;border-color:#1a365d;font-size:0.875rem;" data-i18n="soft_skills">
+                    Soft Skills
+                </h2>
+                <div class="flex flex-wrap gap-1.5">
+                    {% for skill in cv.soft_skills %}
+                    <span class="px-2.5 py-1 rounded text-xs font-medium translatable"
+                          style="background-color:rgba(26,54,93,0.1);color:#1a365d;"
+                          data-pt="{{ skill.data_pt }}"
+                          data-en="{{ skill.data_en }}">
+                        {{ skill.data_en }}
+                    </span>
+                    {% endfor %}
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script src="https://unpkg.com/docx@8.5.0/build/index.umd.js"></script>
+
+<script>
+const translations = {
+    pt: {
+        profile: "Perfil",
+        professional_experience: "Experiência Profissional",
+        academic_training: "Formação Académica",
+        huawei: "Huawei Seeds for the Future – 2025",
+        certifications: "Certificações",
+        technical_courses: "Cursos Técnicos",
+        languages: "Idiomas",
+        hard_skills: "Hard Skills",
+        soft_skills: "Soft Skills",
+        download_pdf: "Baixar PDF",
+        download_word: "Baixar Word"
+    },
+    en: {
+        profile: "Profile",
+        professional_experience: "Professional Experience",
+        academic_training: "Academic Training",
+        huawei: "Huawei Seeds for the Future – 2025",
+        certifications: "Certifications",
+        technical_courses: "Technical Courses",
+        languages: "Languages",
+        hard_skills: "Hard Skills",
+        soft_skills: "Soft Skills",
+        download_pdf: "Download PDF",
+        download_word: "Download Word"
+    }
+};
+
+function updateLanguage(lang) {
+    document.documentElement.lang = lang;
+
+    // Secções com data-i18n
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) el.textContent = translations[lang][key];
+    });
+
+    // Elementos translatable (data-pt / data-en)
+    document.querySelectorAll('.translatable').forEach(el => {
+        const text = el.getAttribute('data-' + lang);
+        if (text) el.innerHTML = text;
+    });
+
+    // Botões de língua
+    document.getElementById('lang-en').style.backgroundColor = lang === 'en' ? '#1a365d' : '#e8edf3';
+    document.getElementById('lang-en').style.color           = lang === 'en' ? '#ffffff' : '#1a365d';
+    document.getElementById('lang-pt').style.backgroundColor = lang === 'pt' ? '#1a365d' : '#e8edf3';
+    document.getElementById('lang-pt').style.color           = lang === 'pt' ? '#ffffff' : '#1a365d';
+}
+
+function downloadPDF() {
+    const btn      = document.getElementById('download-btn');
+    const controls = document.querySelector('.no-print');
+    btn.disabled   = true;
+    btn.querySelector('span').textContent = 'A gerar…';
+    controls.style.display = 'none';
+
+    html2pdf().set({
+        margin: 0.4,
+        filename: 'Sebastiao_Domingos_CV.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2, useCORS: true },
+        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+    }).from(document.querySelector('.max-w-4xl')).save().then(() => {
+        controls.style.display = '';
+        btn.disabled = false;
+        btn.querySelector('span').textContent =
+            document.documentElement.lang === 'pt' ? 'Baixar PDF' : 'Download PDF';
+        lucide.createIcons();
+    });
+}
+
+async function downloadWord() {
+    const btn  = document.getElementById('download-word-btn');
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'A gerar…';
+
+    const lang = document.documentElement.lang || 'en';
+    const isPT = lang === 'pt';
+    const t    = translations[lang];
+
+    const { Document, Packer, Paragraph, TextRun, Table, TableRow, TableCell,
+            WidthType, BorderStyle, ShadingType } = docx;
+
+    const NAVY  = '1a365d';
+    const SLATE = '64748b';
+    const LIGHT = 'DCE7F3';
+    const NONE  = { style: BorderStyle.NONE, size: 0, color: 'FFFFFF' };
+    const noBorders = { top: NONE, bottom: NONE, left: NONE, right: NONE, insideH: NONE, insideV: NONE };
+
+    const heading = text => new Paragraph({
+        children: [new TextRun({ text: text.toUpperCase(), bold: true, color: NAVY, size: 20, font: 'Calibri' })],
+        spacing: { before: 240, after: 80 },
+        border: { bottom: { style: BorderStyle.SINGLE, size: 8, color: NAVY, space: 3 } }
+    });
+
+    const sideHeading = text => new Paragraph({
+        children: [new TextRun({ text: text.toUpperCase(), bold: true, color: NAVY, size: 18, font: 'Calibri' })],
+        spacing: { before: 200, after: 60 },
+        border: { bottom: { style: BorderStyle.SINGLE, size: 6, color: NAVY, space: 3 } }
+    });
+
+    const jobTitle = text => new Paragraph({
+        children: [new TextRun({ text, bold: true, color: NAVY, size: 22, font: 'Calibri' })],
+        spacing: { before: 180, after: 30 }
+    });
+
+    const jobDate = text => new Paragraph({
+        children: [new TextRun({ text, color: SLATE, size: 18, font: 'Calibri' })],
+        spacing: { after: 60 }
+    });
+
+    const bullet = (label, body) => {
+        const children = [new TextRun({ text: '  › ', color: NAVY, bold: true, font: 'Calibri', size: 20 })];
+        if (label) children.push(new TextRun({ text: label + ' – ', bold: true, color: NAVY, font: 'Calibri', size: 20 }));
+        if (body)  children.push(new TextRun({ text: body, color: '2d3748', font: 'Calibri', size: 20 }));
+        return new Paragraph({ children, spacing: { after: 50 } });
+    };
+
+    const plain = (text, opts = {}) => new Paragraph({
+        children: [new TextRun({ text, font: 'Calibri', size: 20, color: '2d3748', ...opts })],
+        spacing: { after: opts.after || 60 }
+    });
+
+    const tags = items => new Paragraph({
+        children: items.flatMap(item => [
+            new TextRun({ text: ' ' + item + ' ', font: 'Calibri', size: 18, color: NAVY,
+                shading: { type: ShadingType.SOLID, color: LIGHT, fill: LIGHT } }),
+            new TextRun({ text: '  ', font: 'Calibri', size: 18 })
+        ]),
+        spacing: { after: 60 }
+    });
+
+    const langBar = (name, label, pct) => new Paragraph({
+        children: [
+            new TextRun({ text: name + '  ', bold: true, font: 'Calibri', size: 20 }),
+            new TextRun({ text: '█'.repeat(Math.round(pct / 10)), color: NAVY, font: 'Calibri', size: 16 }),
+            new TextRun({ text: '█'.repeat(10 - Math.round(pct / 10)), color: 'CBD5E1', font: 'Calibri', size: 16 }),
+            new TextRun({ text: '  ' + label, color: SLATE, font: 'Calibri', size: 18 })
+        ],
+        spacing: { after: 80 }
+    });
+
+    const emptyLine = (size = 80) => new Paragraph({ children: [new TextRun('')], spacing: { after: size } });
+
+    // Dados do Django passados para JS
+    const cvData = {{ cv|safe_json }};
+
+    const mainCol = [
+        heading(t.professional_experience),
+        ...cvData.experiences.flatMap(exp => [
+            jobTitle(isPT ? exp.title.data_pt : exp.title.data_en),
+            jobDate(isPT  ? exp.company.data_pt : exp.company.data_en),
+            ...exp.bullets.map(b => bullet(
+                isPT ? b.label.data_pt : b.label.data_en,
+                isPT ? b.body.data_pt  : b.body.data_en
+            ))
+        ]),
+        emptyLine(120),
+        heading(t.academic_training),
+        ...cvData.education.flatMap(edu => [
+            jobTitle(isPT ? edu.title.data_pt : edu.title.data_en),
+            jobDate(edu.institution + ' · ' + (isPT ? edu.period.data_pt : edu.period.data_en)),
+            ...edu.bullets.map(b => bullet('', isPT ? b.data_pt : b.data_en))
+        ]),
+        emptyLine(120),
+        heading(t.huawei),
+        tags(cvData.huawei_tags)
+    ];
+
+    const sideCol = [
+        sideHeading(t.certifications),
+        ...cvData.certifications.map(c => bullet('', c)),
+        emptyLine(120),
+        sideHeading(t.technical_courses),
+        ...cvData.technical_courses.map(c => bullet('', c)),
+        emptyLine(120),
+        sideHeading(t.languages),
+        ...cvData.languages.map(l => langBar(l.name, isPT ? l.level.data_pt : l.level.data_en, l.pct)),
+        emptyLine(120),
+        sideHeading(t.hard_skills),
+        tags(cvData.hard_skills),
+        emptyLine(120),
+        sideHeading(t.soft_skills),
+        tags(cvData.soft_skills.map(s => isPT ? s.data_pt : s.data_en))
+    ];
+
+    const doc = new Document({
+        styles: { default: { document: { run: { font: 'Calibri', size: 20, color: '2d3748' } } } },
+        sections: [{
+            properties: { page: { margin: { top: 600, right: 720, bottom: 600, left: 720 } } },
+            children: [
+                new Paragraph({
+                    children: [new TextRun({ text: cvData.name, bold: true, color: NAVY, size: 56, font: 'Calibri' })],
+                    spacing: { after: 80 },
+                    border: { top: { style: BorderStyle.SINGLE, size: 18, color: NAVY, space: 0 } }
+                }),
+                new Paragraph({
+                    children: [
+                        new TextRun({ text: '✉ ' + cvData.contact.email,    color: SLATE, size: 18, font: 'Calibri' }),
+                        new TextRun({ text: '   |   ', color: 'CBD5E1', size: 18 }),
+                        new TextRun({ text: '✆ ' + cvData.contact.phone,    color: SLATE, size: 18, font: 'Calibri' }),
+                        new TextRun({ text: '   |   ', color: 'CBD5E1', size: 18 }),
+                        new TextRun({ text: '📍 ' + cvData.contact.location, color: SLATE, size: 18, font: 'Calibri' }),
+                        new TextRun({ text: '   |   ', color: 'CBD5E1', size: 18 }),
+                        new TextRun({ text: '🔗 ' + cvData.contact.linkedin, color: SLATE, size: 18, font: 'Calibri' })
+                    ],
+                    spacing: { after: 160 }
+                }),
+                heading(t.profile),
+                plain(isPT ? cvData.profile.data_pt : cvData.profile.data_en),
+                plain(isPT ? cvData.profile_extra.data_pt : cvData.profile_extra.data_en, { after: 160 }),
+                emptyLine(60),
+                new Table({
+                    width: { size: 100, type: WidthType.PERCENTAGE },
+                    borders: noBorders,
+                    rows: [new TableRow({ children: [
+                        new TableCell({
+                            width: { size: 60, type: WidthType.PERCENTAGE },
+                            borders: noBorders,
+                            margins: { right: 400 },
+                            children: mainCol
+                        }),
+                        new TableCell({
+                            width: { size: 40, type: WidthType.PERCENTAGE },
+                            borders: noBorders,
+                            shading: { type: ShadingType.SOLID, color: 'F0F4F8', fill: 'F0F4F8' },
+                            margins: { left: 300, right: 200, top: 120, bottom: 120 },
+                            children: sideCol
+                        })
+                    ]})]
+                })
+            ]
+        }]
+    });
+
+    const blob = await Packer.toBlob(doc);
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'Sebastiao_Domingos_CV.docx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    btn.disabled = false;
+    btn.querySelector('span').textContent = isPT ? 'Baixar Word' : 'Download Word';
+}
+
+// Upload de foto
+document.addEventListener('DOMContentLoaded', function () {
+    lucide.createIcons();
+
+    const photoContainer  = document.getElementById('profile-photo');
+    const photoImg        = document.getElementById('photo-img');
+    const photoPlaceholder = document.getElementById('photo-placeholder');
+    const hiddenFileInput = document.getElementById('hidden-photo-input');
+
+    // Se já tem foto do static, não mostra placeholder
+    if (photoImg.src && !photoImg.src.endsWith('undefined')) {
+        photoImg.style.display = 'block';
+        photoPlaceholder.style.display = 'none';
+    }
+
+    function loadPhoto(file) {
+        if (!file.type.startsWith('image/')) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            photoImg.src = e.target.result;
+            photoImg.style.display = 'block';
+            photoPlaceholder.classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    photoContainer.addEventListener('click', () => hiddenFileInput.click());
+    hiddenFileInput.addEventListener('change', e => { if (e.target.files[0]) loadPhoto(e.target.files[0]); });
+
+    photoContainer.addEventListener('dragover', e => { e.preventDefault(); photoContainer.style.opacity = '0.7'; });
+    photoContainer.addEventListener('dragleave', () => { photoContainer.style.opacity = '1'; });
+    photoContainer.addEventListener('drop', e => {
+        e.preventDefault();
+        photoContainer.style.opacity = '1';
+        if (e.dataTransfer.files[0]) loadPhoto(e.dataTransfer.files[0]);
+    });
+
+    updateLanguage('en');
+});
+</script>
+
+{% endblock %}
