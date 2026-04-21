@@ -5,7 +5,7 @@ def courses():
 
     return [
                 {
-                    "badge_image": "/badges/foto-seba.png",           # ← substitui pelo nome real do ficheiro
+                    "badge_image": "/badges/ism.png",           # ← substitui pelo nome real do ficheiro
                     "title": {
                         "data_pt": "Dell Technologies – Information Storage & Management (ISM)",
                         "data_en": "Dell Technologies – Information Storage & Management (ISM)"
@@ -23,7 +23,7 @@ def courses():
                     "pdf_url": "certificates/cv.pdf"
                 },
                 {
-                    "badge_image": "badges/foto-seba.png",
+                    "badge_image": "badges/unity.png",
                     "title": {
                         "data_pt": "Dell Unity Deploy 2023 (D-UN-DE-23)",
                         "data_en": "Dell Unity Deploy 2023 (D-UN-DE-23)"
@@ -42,7 +42,7 @@ def courses():
 
                 },
                 {
-                    "badge_image": "badges/foto-seba.png",
+                    "badge_image": "badges/powermax.png",
                     "title": {
                         "data_pt": "PowerMax-Operate Version 2 (D-PVM-OE-01)",
                         "data_en": "PowerMax-Operate Version 2 (D-PVM-OE-01)"
@@ -61,7 +61,7 @@ def courses():
 
                 },
                 {
-                    "badge_image": "badges/foto-seba.png",
+                    "badge_image": "badges/ccna.png",
                     "title": {
                         "data_pt": "Programa Huawei Sementes para o Futuro 2025",
                         "data_en": "Huawei Seeds for the Future Program 2025"
@@ -81,7 +81,7 @@ def courses():
 
                 },
                 {
-                    "badge_image": "badges/foto-seba.png",
+                    "badge_image": "badges/ccna.png",
                     "title": {
                         "data_pt": "CCNA 1-3 (Cisco Certified Network Associate)",
                         "data_en": "CCNA 1-3 (Cisco Certified Network Associate)"
@@ -95,7 +95,7 @@ def courses():
                     ]
                 },
                 {
-                    "badge_image": "badges/foto-seba.png",
+                    "badge_image": "badges/ism.png",
                     "title": {
                         "data_pt": "Programação Web",
                         "data_en": "Web Programming"
@@ -109,7 +109,7 @@ def courses():
                     ]
                 },
                 {
-                    "badge_image": "badges/foto-seba.png",
+                    "badge_image": "badges/isc2.png",
                     "title": {
                         "data_pt": "ISC2 – Cybersecurity Certification",
                         "data_en": "ISC2 – Cybersecurity Certification"

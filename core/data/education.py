@@ -27,7 +27,7 @@ def educations_final():
         "projetos": [
             {"data_pt": "Sistema de Gestão de Clube de Ténis (My Tennis Club)", "data_en": "Tennis Club Management System (My Tennis Club)"},
             {"data_pt": "Portfolio Pessoal (este website)", "data_en": "Personal Portfolio Website"},
-            {"data_pt": "Sistema de Gestão Acadêmica", "data_en": "Academic Management System"}
+            {"data_pt": "Sistema de Gestão Acadêmica - SIGUL", "data_en": "Academic Management System - SIGUL"}
         ]
     },
     {
@@ -47,8 +47,8 @@ def educations_final():
         "conquistas": [
             {"data_pt": "Conclusão com Distinção", "data_en": "Graduated with Distinction"}
         ],
-        "certificado_pdf": "certificates/cv.pdf",
-        "historico_pdf": "certificates/cv.pdf",
+        "certificado_pdf": "certificates/Certificado_ensino_medio.pdf",
+        "historico_pdf": "certificates/Certificado_ensino_medio.pdf",
         "projetos": [
             {"data_pt": "Projeto Final de Manutenção Mecânica", "data_en": "Final Mechanical Maintenance Project"}
         ]
