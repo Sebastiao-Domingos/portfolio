@@ -51,6 +51,19 @@ def projects():
                         "data_en": "Interactive dashboard for visualization and analysis of business data.",
                     },
                     "technologies": ["React", "D3.js", "Node.js", "MongoDB"],
+                },
+                {
+                    "icon": "📝",
+                    "gradient": "bg-gradient-to-br from-purple-500 via-fuchsia-500 to-pink-600", #"bg-gradient-to-br from-green-500 via-lime-500 to-green-600",
+                    "title": {
+                        "data_pt": "Dashboard de Tarefas",
+                        "data_en": "Task Dashboard",
+                    },
+                    "description": {
+                        "data_pt": "Dashboard interativo para gerenciar tarefas e prioridades categorias de tarefas, com notificação de tarefas pendentes, tarefas concluidas e tarefas em andamento. Permitindo arrastar as tarefas para estados diferentes.",
+                        "data_en": "Interactive dashboard for managing tasks and task categories, with notifications for pending tasks, completed tasks, and tasks in progress. Allows dragging tasks to different states.",
+                    },
+                    "technologies": ["HTML", "CSS", "JavaScript", "Tailwind CSS", "Django", "PostgreSQL"],
                 }
             ]
 
